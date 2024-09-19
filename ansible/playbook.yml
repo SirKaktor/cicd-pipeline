@@ -1,0 +1,38 @@
+---
+- name: install node; clone and start app
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update APT package index
+      apt:
+        update_cache: yes
+
+    - name: install node
+      apt: 
+        name: nodejs
+
+    - name: install npm
+      apt: 
+        name: npm
+
+    - name: git checkout
+      git:
+        repo: 'https://github.com/juliusstelldinger/cicd-pipeline.git'
+        dest: /home/ubuntu/cicd-pipeline/
+    
+    - name: Install packages based on package.json.
+      community.general.npm:
+        path: /home/ubuntu/cicd-pipeline/express-app
+    
+    # - name: "Install forever (to run Node.js app)."
+    #   npm: name=forever global=yes state=present
+
+    # - name: "Check list of Node.js apps running."
+    #   command: forever list
+    #   register: forever_list
+    #   changed_when: false
+
+    # - name: "Start example Node.js app."
+    #   command: forever start /home/ubuntu/cicd-pipeline/express-app/index.js
+    #   when: "forever_list.stdout.find('/home/ubuntu/cicd-pipeline/express-app/index.js') == -1"
+      
