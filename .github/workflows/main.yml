@@ -34,10 +34,10 @@ jobs:
 
       - name: create ssh-file
         run: |
-          echo "${{ secrets.SSH_KEY }}" > /tmp/my-key.pem && chmod 400 /tmp/my-key.pem 
+          echo "${{ secrets.SSH_KEY }}" > /tmp/ssh_key && chmod 400 /tmp/ssh_key
 
       - name: run ansible playbook
         run: |
-          export ANSIBLE_PRIVATE_KEY_FILE=/tmp/my-key.pem
+          export ANSIBLE_PRIVATE_KEY_FILE=/tmp/ssh_key
           ansible-playbook -i hosts.ini playbook.yml
         working-directory: ansible
