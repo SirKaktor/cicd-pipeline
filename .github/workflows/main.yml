@@ -32,6 +32,12 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: terraform
 
+      - name: create ssh-file
+        run: |
+          echo "${{ secrets.SSH_KEY }}" > /cooler-key/my-key.pem && chmod 400 /cooler-key/my-key.pem
+
       - name: run ansible playbook
-        run: ansible-playbook -i hosts.ini playbook.yml
+        run: |
+          export ANSIBLE_PRIVATE_KEY_FILE=/cooler-key/my-key.pem
+          ansible-playbook -i hosts.ini playbook.yml
         working-directory: ansible
