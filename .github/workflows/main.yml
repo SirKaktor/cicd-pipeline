@@ -31,3 +31,7 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
         working-directory: terraform
+
+      - name: run ansible playbook
+        run: ansible-playbook -i hosts.ini playbook.yml
+        working-directory: ansible
